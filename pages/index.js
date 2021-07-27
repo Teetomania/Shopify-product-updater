@@ -5,11 +5,13 @@ import {
   DataTable,
   EmptyState,
   Heading,
+  Frame,
   Page,
   Stack,
   TextField,
+  Toast
 } from "@shopify/polaris";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 const Index = () => {
   const [appendToTitle, setAppendToTitle] = useState("");
@@ -30,7 +32,21 @@ const Index = () => {
     [products, appendToTitle, appendToDescription]
   );
 
+  const submitHandler = useCallback(() => {
+    console.log("Submitting");
+    setShowToast(true)
+  }, []);
+
+  const toastMarkup = showToast ? (
+    <Toast
+      content="Update Successful"
+      onDismiss={() => setShowToast(false)}
+      duration={4000}
+    />
+  ) : null;
+
   return (
+    <Frame>
     <Page>
       <Heading>Product Updater App</Heading>
       <Card>
@@ -56,7 +72,7 @@ const Index = () => {
                 setProducts(resources.selection);
               }}
             />
-            <Button primary onClick={() => console.log("clicked")}>
+            <Button primary onClick={() => setPickerOpen(true)}>
               Select Products
             </Button>
           </Stack>
@@ -72,14 +88,21 @@ const Index = () => {
                 "Old Description",
                 "New Description",
               ]}
-              rows={[productTableDisplayData]}
+              rows={productTableDisplayData}
             />
           ) : (
             <EmptyState heading="No products selected" />
           )}
         </Card.Section>
+        <Card.Section>
+          <Button primary onClick={submitHandler} disabled={!products.length}>
+            Submit
+          </Button>
+        </Card.Section>
       </Card>
+      {toastMarkup}
     </Page>
+    </Frame>
   );
 };
 
