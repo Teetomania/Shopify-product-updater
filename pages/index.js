@@ -35,21 +35,6 @@ const Index = () => {
       ]),
     [products, appendToTitle, appendToDescription]
   );
-  // const session = await Shopify.Utils.loadCurrentSession(req, res);
-  // const client = new Shopify.Clients.Graphql(session.shop, session.accessToken);
-  // const products = await client.query({
-  //   data: `{
-  //       products (first: 3) {
-  //         edges {
-  //           node {
-  //             id
-  //             title
-  //             descriptionHtml
-  //           }
-  //         }
-  //       }
-  //     }`,
-  // });
 
   const submitHandler = useCallback(() => {
     let count = 0;
